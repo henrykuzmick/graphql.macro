@@ -33,9 +33,10 @@ function graphqlMacro({
   // Case 2: import { loader } from 'graphql.macro'
   loader.forEach(referencePath => {
     referencePath.parentPath.node.arguments.forEach(({ value }) => {
-      const queryPath = value.startsWith('./')
-        ? path.join(filename, '..', value)
-        : resolvePathFromCwd(value);
+      const queryPath =
+        value.startsWith('./') || value.startsWith('../')
+          ? path.join(filename, '..', value)
+          : resolvePathFromCwd(value);
       const expanded = expandImports(queryPath); // Note: #import feature
       referencePath.parentPath.replaceWith(serialize(gqlTag(expanded)));
     });
