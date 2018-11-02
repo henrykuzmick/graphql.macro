@@ -72,6 +72,23 @@ pluginTester({
         const query = loader('./fixtures/query3.graphql');
       `,
     },
+    '[loader] with absolute path': {
+      error: false,
+      code: `
+        import { loader } from '../macro';
+        const query = loader('src/__tests__/fixtures/simpleFragment.graphql');
+      `,
+    },
+    '[loader] with absolute path and NODE_PATH': {
+      error: false,
+      code: `
+        import { loader } from '../macro';
+        const query = loader('__tests__/fixtures/simpleFragment.graphql');
+      `,
+      setup: () => {
+        process.env.NODE_PATH = 'src/';
+      },
+    },
     // '[loader] multiple operations': {
     //   error: false,
     //   code: `
